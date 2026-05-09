@@ -18,7 +18,7 @@ $(FINAL): $(ASM_OBJ)
 
 up: $(TARGET)
 	doas minipro -p AT28C256 -w bin/$(FINAL) -s -u
-dump:
+dmp:
 	doas minipro -p AT28C256 -r bin/$(FINAL).dmp
 erase:
 	doas minipro -p AT28C256 -E
