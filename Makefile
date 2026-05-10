@@ -20,7 +20,7 @@ ASM_S 		= $(DIR_SRC)/reset.asm\
 			  $(DIR_SRC)/adrese.asm
 
 ASM_O 		= $(ASM_S:%.asm=%.o)
-FIRMWARE	= firmware.out
+FIRMWARE	= firmware.bin
 
 $(FIRMWARE): $(ASM_O)
 	$(LD) $(LD_FLAGS) -C src/memory.map -o bin/$(FIRMWARE) $(ASM_O)
@@ -33,11 +33,11 @@ $(FIRMWARE): $(ASM_O)
 	$(CC) $(CC_FLAGS) -o $@ $<
 
 up: $(FIRMWARE)
-	doas minipro -p AT28C256 -w bin/$(FIRMWARE) -s -u
+	minipro -p AT28C256 -w bin/$(FIRMWARE) -s -u
 dmp:
-	doas minipro -p AT28C256 -r bin/$(FIRMWARE).dmp
+	minipro -p AT28C256 -r bin/$(FIRMWARE).d
 erase:
-	doas minipro -p AT28C256 -E
+	minipro -p AT28C256 -E
 
 clr:
 	rm $(ASM_O) $(FIRMWARE)
