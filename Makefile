@@ -12,6 +12,7 @@ FINAL	= firmware.out
 
 $(FINAL): $(ASM_O)
 	$(LD) $(LD_FLAGS) -C src/memory.map -o bin/$(FINAL) $(ASM_O)
+	rm $(ASM_O)
 
 .asm.o:
 	$(AS) $(AS_FLAGS) -o $@ $<
