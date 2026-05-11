@@ -1,6 +1,8 @@
 .org    $8000
 
 .include "driver_lcd.asm"
+.include "driver_6522.asm"
+.include "driver_6551.asm"
 
 RESET:
     SEI                 ;   ==========================================
@@ -14,9 +16,6 @@ RESET:
     LDA #$FF            ;
     STA DDRA            ;   DDRA, DDRB sunt iesiri
     STA DDRB            ;
-
-    JSR LCD_INIT        ;   initializare LCD
-
 LOOP:
     JMP LOOP
 
