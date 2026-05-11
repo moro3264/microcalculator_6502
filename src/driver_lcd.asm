@@ -7,7 +7,6 @@
 ;   *   LCD_CLEAR
 ;
 ;   Pe viitor:
-;   *   se va schimba cablajul si logica de program
 ;   *   se va renunta la metoda cu decalaj soft
 ;   *   se vor generaliza instructiunile pentru LCD-uri de diferite dimensiuni: 8x2, 16x2, 24
 
