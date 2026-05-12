@@ -1,5 +1,5 @@
-.org    $8000
 
+.include "adrese.asm"
 .include "driver_lcd.asm"
 
 RESET:
@@ -12,10 +12,8 @@ RESET:
     TAY                 ;   ==========================================
 
     LDA #$FF            ;
-    STA DDRA            ;   DDRA, DDRB sunt iesiri
-    STA DDRB            ;
-
-    JSR LCD_INIT        ;   initializare LCD
+    ;STA DDRA            ;   DDRA, DDRB sunt iesiri
+    ;STA DDRB            ;
 
 LOOP:
     JMP LOOP
@@ -25,8 +23,8 @@ NMI:
 IRQ:
     RTI
 
+.SEGMENT "VECTORI"
 
-.org    $FFFA
 .word   NMI
 .word   RESET
 .word   IRQ

@@ -7,11 +7,12 @@
 ;   *   LCD_CLEAR
 ;
 ;   Pe viitor:
-;   *   se va schimba cablajul si logica de program
 ;   *   se va renunta la metoda cu decalaj soft
 ;   *   se vor generaliza instructiunile pentru LCD-uri de diferite dimensiuni: 8x2, 16x2, 24
 
 .include "adrese.asm"
+
+.CODE
 
 LCD_INIT:
     PHA
@@ -32,7 +33,6 @@ LCD_INIT:
 ;   PORTB ~ LCD
 ;   7   6   5   4   3   2   1   0
 ;   7   6   5   4   X   RS  E   X
-
 LCD_CMD:
     PHA 
 
