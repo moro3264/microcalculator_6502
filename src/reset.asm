@@ -1,6 +1,8 @@
 
 .include "adrese.asm"
 .include "driver_lcd.asm"
+.include "driver_6522.asm"
+.include "driver_6551.asm"
 
 RESET:
     SEI                 ;   ==========================================
@@ -12,9 +14,14 @@ RESET:
     TAY                 ;   ==========================================
 
     LDA #$FF            ;
+<<<<<<< HEAD
     ;STA DDRA            ;   DDRA, DDRB sunt iesiri
     ;STA DDRB            ;
 
+=======
+    STA DDRA            ;   DDRA, DDRB sunt iesiri
+    STA DDRB            ;
+>>>>>>> 3080f3b5ed004c1b624c229fc31af8b6d1abd540
 LOOP:
     JMP LOOP
 
