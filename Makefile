@@ -4,7 +4,7 @@ AS 			= ca65
 AS_FLAGS 	= -v --cpu W65C02
 
 LD		 	= ld65
-LD_FLAGS 	= -v --no-utf8
+LD_FLAGS 	= -v -S 0x8000 -C harta_de_memorie.cfg
 
 CC			= cc65
 CC_FLAGS	= -v -t none --cpu W65C02
@@ -23,7 +23,7 @@ ASM_O 		= $(ASM_S:%.asm=%.o)
 FIRMWARE	= firmware.bin
 
 $(FIRMWARE): $(ASM_O)
-	$(LD) $(LD_FLAGS) -C src/memory.map -o bin/$(FIRMWARE) $(ASM_O)
+	$(LD) $(LD_FLAGS) -o bin/$(FIRMWARE) $(ASM_O)
 	rm $(ASM_O)
 
 .asm.o:
