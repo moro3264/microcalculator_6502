@@ -47,7 +47,6 @@ sau chiar inutile pentru scopul ce trebuie sa-l indeplineasca.
 Notite
 ======
 
-    Atat componentele software cat si cele hardware se vor schimba radical pe viitor,
-chiar daca isi vor pastra natura si ideea generala, intrucat am de gand sa optimizez
-atat aranjarea componentelor si traseele de cupru de pe cablajul imprimat, cat si
-logica software.
+    Atat componentele software cat si cele hardware se vor schimba radical pe viitor, 
+intrucat am de gand sa optimizez atat aranjarea componentelor si traseele de cupru 
+de pe cablajul imprimat, cat si logica software.
