@@ -1,29 +1,53 @@
 Microcalculator cu microprocesorul 6502 (WDC).
 
-I. Scop
+Scop
+====
+
     Crearea unui sistem capabil sa gestioneze dispozitive auxiliare printr-un set
 de functii de baza. Pe masura ce proiectul merge mai departe se vor dezvolta si alte capacitati software.
 
-II. Impartirea memoriei
+Impartirea memoriei
+===================
 
-        +---------+
-        |         |
-        |   RAM   | 0x0000, 0x7FFF (32 KiB)
-        |         |
-        +---------+
-        |   IO    | 0x8000, 0x803F (64 B)
-        +---------+
-        |         |
-        |   ROM   | 0x8040, 0xFFFF (32702 B);
-        |         |
-        +---------+
-
-    Unde spatiul IO este impartit astfel:
-* 0x8000, 0x800F -> VIA
-* 0x8010, 0x801F -> ACIA
-* 0x8020, 0x802F -> spatiu liber -- se poate extinde cu alte dispozitive
-* 0x8030, 0x803F -> spatiu liber -- se poate extinde cu alte dispozitive
+        +-----------+
+        |           |
+        |           |
+        |           |
+        |           | 
+        |    RAM    |   [0x0000, 0x7FFF] (32 KiB)
+        |           |
+        |           |
+        |           |
+        |           |
+        |           |
+        +-----------+
+        |   VIA     |   [0x8000, 0x800F] (16 B)
+        +-----------+
+        |   ACIA    |   [0x8010, 0x801F] (16 B)
+        +-----------+
+        |   LIBER   |   [0x8020, 0x802F] (16 B)
+        +-----------+
+        |   LIBER   |   [0x8030, 0x803F] (16 B)
+        +-----------+
+        |           |
+        |           |
+        |           |
+        |           |
+        |    ROM    |   [0x8040, 0xFFFF] (32702 B)
+        |           | 
+        |           |
+        |           |
+        |           |
+        +-----------+
 
     O alta varianta ar fi inclus folosirea unui sistem de banking, doar ca resursele
 de memorie de care sistemul ar fi beneficiat ar fi fost mult prea generoase
 sau chiar inutile pentru scopul ce trebuie sa-l indeplineasca.
+
+Notite
+======
+
+    Atat componentele software cat si cele hardware se vor schimba radical pe viitor,
+chiar daca isi vor pastra natura si ideea generala, intrucat am de gand sa optimizez
+atat aranjarea componentelor si traseele de cupru de pe cablajul imprimat, cat si
+logica software.
