@@ -33,7 +33,7 @@ Impartirea memoriei
         |           |
         |           |
         |           |
-        |    ROM    |   [0x8040, 0xFFFF] (32702 B)
+        |    ROM    |   [0x8040, 0xFFFF] (32704 B)
         |           | 
         |           |
         |           |
