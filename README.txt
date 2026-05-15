@@ -43,10 +43,3 @@ Impartirea memoriei
     O alta varianta ar fi inclus folosirea unui sistem de banking, doar ca resursele
 de memorie de care sistemul ar fi beneficiat ar fi fost mult prea generoase
 sau chiar inutile pentru scopul ce trebuie sa-l indeplineasca.
-
-Notite
-======
-
-    Atat componentele software cat si cele hardware se vor schimba radical pe viitor, 
-intrucat am de gand sa optimizez atat aranjarea componentelor si traseele de cupru 
-de pe cablajul imprimat, cat si logica software.
