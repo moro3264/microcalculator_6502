@@ -1,0 +1,8 @@
+.pin
+.jed
+.fus
+.chp
+bin/
+*.swp
+*.o
+.history

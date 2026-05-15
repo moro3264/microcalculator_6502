@@ -28,7 +28,6 @@ $(FIRMWARE): $(ASM_O)
 
 .asm.o:
 	$(AS) $(AS_FLAGS) -o $@ $<
-
 .c.o:
 	$(CC) $(CC_FLAGS) -o $@ $<
 
