@@ -1,3 +1,8 @@
+.ifndef __MODUL_LCD_H__
+__MODUL_LCD_H__ = 1
+
+.include "modul_via.asm"
+
 ;   Driver pentru afisaje LCD alfanumerice (HD44780)
 ;   Subrutine:
 ;   *   LCD_INIT
@@ -10,10 +15,10 @@
 ;   *   se va renunta la metoda cu decalaj soft
 ;   *   se vor generaliza instructiunile pentru LCD-uri de diferite dimensiuni: 8x2, 16x2, 24
 
-.include "adrese.asm"
+.define _STR_ADDR        $0000
+.define _LCD_VAL_TMP     $7FFD
 
 .CODE
-
 LCD_INIT:
     PHA
 
@@ -30,7 +35,7 @@ LCD_INIT:
     PLA
     RTS
 
-;   PORTB ~ LCD
+;   VIA_PORTB ~ LCD
 ;   7   6   5   4   3   2   1   0
 ;   7   6   5   4   X   RS  E   X
 LCD_CMD:
@@ -39,13 +44,13 @@ LCD_CMD:
     STA _LCD_VAL_TMP
     AND #$F0
     ORA #$02           ;   E = 1
-    STA PORTB
+    STA VIA_PORTB
 
     LDA #$80
     JSR DELAY
 
     AND #$F0
-    STA PORTB           ;E = 0
+    STA VIA_PORTB           ;E = 0
 
     LDA #$80
     JSR DELAY
@@ -57,13 +62,13 @@ LCD_CMD:
     ROL A           
     AND #$F0
     ORA #$02        
-    STA PORTB       
+    STA VIA_PORTB       
 
     LDA #$80
     JSR DELAY
 
     AND #$F0
-    STA PORTB
+    STA VIA_PORTB
 
     LDA #$80
     JSR DELAY
@@ -71,7 +76,7 @@ LCD_CMD:
     PLA
     RTS
 
-;   PORTB
+;   VIA_PORTB
 ;   7   6   5   4   3   2   1   0
 ;   7   6   5   4   X   RS  E   X
 
@@ -82,13 +87,13 @@ LCD_CHR:
     AND #$F0            ;
     ORA #$06            ;   RS = 1 si E = 1
 
-    STA PORTB
+    STA VIA_PORTB
     LDA #$80
     JSR DELAY
 
     AND #$F4            ;   RS = 1 si E = 0
 
-    STA PORTB
+    STA VIA_PORTB
     LDA #$80
     JSR DELAY
 
@@ -100,13 +105,13 @@ LCD_CHR:
     AND #$F0
     ORA #$06        ;   RS = 1 si E = 1
 
-    STA PORTB
+    STA VIA_PORTB
     LDA #$80
     JSR DELAY
 
     AND #$F4        ;   RS = 1 si E = 0
 
-    STA PORTB
+    STA VIA_PORTB
     LDA #$80
     JSR DELAY
 
@@ -118,7 +123,7 @@ LCD_STR:
     PHY
     LDY #$00
 @LCD_STR_AFISARE_CHR:
-    LDA (_STR_ADDR), Y
+    LDA (_STR_ADDR),Y
     BEQ @LCD_STR_FINAL
     JSR LCD_CHR
     INY
@@ -152,3 +157,5 @@ LCD_CLEAR:
     JSR LCD_CMD
     PLA
     RTS
+
+.endif

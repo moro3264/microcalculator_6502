@@ -15,9 +15,11 @@ DIR_BIN 	= bin
 #C_S 		= 
 #C_O 		= $(C_S:%.c=%.o)
 
-ASM_S 		= $(DIR_SRC)/reset.asm\
-			  $(DIR_SRC)/driver_lcd.asm\
-			  $(DIR_SRC)/adrese.asm
+ASM_S 		= \
+	  $(DIR_SRC)/modul_lcd.asm\
+	  $(DIR_SRC)/modul_via.asm\
+	  $(DIR_SRC)/modul_acia.asm\
+	  $(DIR_SRC)/reset.asm\
 
 ASM_O 		= $(ASM_S:%.asm=%.o)
 FIRMWARE	= firmware.bin

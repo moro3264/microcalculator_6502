@@ -1,7 +1,6 @@
-.include "adrese.asm"
-.include "driver_lcd.asm"
-.include "driver_6522.asm"
-.include "driver_6551.asm"
+.include "modul_via.asm"
+.include "modul_acia.asm"
+.include "modul_lcd.asm"
 
 .CODE
 
@@ -13,6 +12,11 @@ RESET:
     LDA #$00            ;   * init registre: A = X = Y = 0x00        
     TAX                 ;   
     TAY                 ;   ==========================================
+
+    JSR ACIA_INIT
+    JSR VIA_INIT
+
+    BRK
 
 LOOP:
     JMP LOOP
