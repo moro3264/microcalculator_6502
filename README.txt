@@ -4,7 +4,7 @@ Scop
 ====
 
     Crearea unui sistem capabil sa gestioneze dispozitive auxiliare printr-un set
-de functii de baza. Pe masura ce proiectul merge mai departe se vor dezvolta si alte capacitati software.
+de functii de baza. Pe masura ce proiectul merge mai departe se vor dezvolta si alte capacitati software / hardware.
 
 Impartirea memoriei
 ===================
@@ -21,9 +21,9 @@ Impartirea memoriei
         |           |
         |           |
         +-----------+
-        |   VIA     |   [0x8000, 0x800F] (16 B)
+        |   ACIA    |   [0x8000, 0x800F] (16 B)
         +-----------+
-        |   ACIA    |   [0x8010, 0x801F] (16 B)
+        |   VIA     |   [0x8010, 0x801F] (16 B)
         +-----------+
         |   LIBER   |   [0x8020, 0x802F] (16 B)
         +-----------+
@@ -39,7 +39,3 @@ Impartirea memoriei
         |           |
         |           |
         +-----------+
-
-    O alta varianta ar fi inclus folosirea unui sistem de banking, doar ca resursele
-de memorie de care sistemul ar fi beneficiat ar fi fost mult prea generoase
-sau chiar inutile pentru scopul ce trebuie sa-l indeplineasca.
