@@ -13015,8 +13015,8 @@
 				)
 			)
 		)
-		(property "Value" "CXO_DIP8"
-			(at 78.486 66.294 0)
+		(property "Value" "1.8432MHz"
+			(at 62.992 76.708 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -13260,8 +13260,8 @@
 				)
 			)
 		)
-		(property "Value" "CXO_DIP14"
-			(at 49.784 66.294 0)
+		(property "Value" "4MHz"
+			(at 36.576 76.708 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
