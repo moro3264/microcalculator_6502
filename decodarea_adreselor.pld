@@ -2,20 +2,13 @@ GAL22V10
 Decodarea memoriei
 
 A15 A14 A13 A12 A11 A10 A9    A8     A7     A6 A5 GND
-A4  RWB CLK WER OER CER CEVIA CEACIA CEROM  NC NC VCC
+A4  RWB CLK WE_RAM OE_RAM CE_RAM CE_VIA CE_ACIA CE_ROM  NC NC VCC
 
-/WER    = /A15 * /RWB
-/OER    = /A15 * RWB
-/CER    = /A15
-/CEACIA = A15 * /A14 * /A13 * /A12 * /A11 * /A10 * /A9 * /A8 * /A7 * /A6 * /A5 * /A4
-/CEVIA  = A15 * /A14 * /A13 * /A12 * /A11 * /A10 * /A9 * /A8 * /A7 * /A6 * /A5 * A4
-/CEROM  =   RWB * A15 * A14 + RWB * A15 * A13 + RWB * A15 * A12 + RWB * A15 * A11 + RWB * A15 * A10 + RWB * A15 * A9 + RWB * A15 * A8 + RWB * A15 * A7 + RWB * A15 * A6
+/WE_RAM  = /A15 * /RWB
+/OE_RAM  = /A15 * RWB
+/CE_RAM  = /A15
+/CE_ACIA = A15 * /A14 * /A13 * /A12 * /A11 * /A10 * /A9 * /A8 * /A7 * /A6 * /A5 * /A4
+/CE_VIA  = A15 * /A14 * /A13 * /A12 * /A11 * /A10 * /A9 * /A8 * /A7 * /A6 * /A5 * A4
+/CE_ROM  = RWB * A15 * A14 + RWB * A15 * A13 + RWB * A15 * A12 + RWB * A15 * A11 + RWB * A15 * A10 + RWB * A15 * A9 + RWB * A15 * A8 + RWB * A15 * A7 + RWB * A15 * A6
+
 DESCRIPTION
-GND, VCC - supply
-
-* WER       - write enable RAM
-* OER       - output enable RAM
-* CER       - chip enable RAM
-* CEVIA     - chip enable VIA
-* CEACIA    - chip enable ACIA
-* CEROM     - chip enable ROM
