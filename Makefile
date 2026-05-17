@@ -34,13 +34,13 @@ $(FIRMWARE): $(ASM_O)
 	$(CC) $(CC_FLAGS) -o $@ $<
 
 up: $(FIRMWARE)
-	minipro -p AT28C256 -w bin/$(FIRMWARE) -s -u
+	doas minipro -p AT28C256 -w bin/$(FIRMWARE) -u
 dmp:
-	minipro -p AT28C256 -r bin/$(FIRMWARE).d
+	doas minipro -p AT28C256 -r bin/$(FIRMWARE).d
 erase:
-	minipro -p AT28C256 -E
+	doas minipro -p AT28C256 -E
 
 clr:
-	rm $(ASM_O) $(FIRMWARE)
+	rm -f $(ASM_O) $(FIRMWARE)
 
 .PHONY: clr

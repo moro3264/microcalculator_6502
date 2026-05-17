@@ -1,9 +1,9 @@
-.pin
-.jed
-.fus
-.chp
-bin/
+*.history
 *.swp
 *.o
+*.pin
+*.jed
+*.fus
+*.chp
 *.lck
-.history
+bin/
