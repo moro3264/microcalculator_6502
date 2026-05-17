@@ -15,6 +15,7 @@ DIR_BIN 	= bin
 #C_S 		= 
 #C_O 		= $(C_S:%.c=%.o)
 
+DCD_MEM		=	dcd_mem.pld
 ASM_S 		= \
 	  $(DIR_SRC)/modul_lcd.asm\
 	  $(DIR_SRC)/modul_via.asm\
@@ -32,6 +33,9 @@ $(FIRMWARE): $(ASM_O)
 	$(AS) $(AS_FLAGS) -o $@ $<
 .c.o:
 	$(CC) $(CC_FLAGS) -o $@ $<
+
+dcd: $(DCD_MEM)
+	galette -c -f -p $(DCD_MEM)
 
 up: $(FIRMWARE)
 	doas minipro -p AT28C256 -w bin/$(FIRMWARE) -u
