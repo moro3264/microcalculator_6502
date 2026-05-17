@@ -23,6 +23,14 @@ __MODUL_VIA_H__ = 1
 
 .CODE
 VIA_INIT:
+    PHA
+
+    LDA #$FF        ;
+    STA VIA_DDRB    ;
+    STA VIA_DDRA    ;   PORTA / PORTB sunt iesiri
+
+    PLA
+
     RTS
 
 .endif

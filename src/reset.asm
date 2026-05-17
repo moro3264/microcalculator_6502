@@ -2,22 +2,29 @@
 .include "modul_acia.asm"
 .include "modul_lcd.asm"
 
-.CODE
+.RODATA
+    mesaj: .ASCIIZ "STARTING SYSTEM..."
 
+.CODE
 RESET:
     SEI                 ;   ==========================================
-    CLD                 ;                SECVENTA DE RESET 
+    CLD                 ;                SUBRUTINA DE RESET
     LDX #$FF            ;   * dezactivare intreruperi si mod BCD
-    TXS                 ;   * init stiva 
-    LDA #$00            ;   * init registre: A = X = Y = 0x00        
-    TAX                 ;   
+    TXS                 ;   * initializare stiva 
+    LDA #$00            ;   * initializare registre: A = X = Y = 0
+    TAX                 ;
     TAY                 ;   ==========================================
 
     JSR ACIA_INIT
     JSR VIA_INIT
+    JSR LCD_INIT
 
-    BRK
-
+    LDA #<mesaj
+    STA _STR_ADDR
+    LDA #>mesaj
+    STA _STR_ADDR + 1
+    JSR LCD_STR
+    
 LOOP:
     JMP LOOP
 
