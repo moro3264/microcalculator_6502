@@ -9,7 +9,6 @@
 ;
 ;       Pe viitor:
 ;   *   sa ma hotarasc dracului odata daca folosesc sau nu ceilalti pini, pe langa RxD si TxD.
-;   *   sa scriu un program prin care sa pot incarca date fara 
 ;   *   sa scriu subrutinele necesare incarcarii in RAM a datelor primite
 
 .ifndef __MODUL_ACIA_H__
