@@ -17,9 +17,9 @@ DIR_BIN 	= bin
 
 DCD_MEM		=	dcd_mem.pld
 ASM_S 		= \
-	  $(DIR_SRC)/modul_lcd.asm\
-	  $(DIR_SRC)/modul_via.asm\
-	  $(DIR_SRC)/modul_acia.asm\
+	  $(DIR_SRC)/LCD.asm\
+	  $(DIR_SRC)/VIA.asm\
+	  $(DIR_SRC)/ACIA.asm\
 	  $(DIR_SRC)/reset.asm\
 
 ASM_O 		= $(ASM_S:%.asm=%.o)

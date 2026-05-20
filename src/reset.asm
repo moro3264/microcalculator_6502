@@ -1,32 +1,34 @@
-.include "modul_via.asm"
-.include "modul_acia.asm"
-.include "modul_lcd.asm"
+.include "VIA.asm"
+.include "ACIA.asm"
+.include "LCD.asm"
 
 .RODATA
-    mesaj: .ASCIIZ "STARTING SYSTEM..."
+msg_sys_init: 
+    .ASCIIZ "SYSTEM INIT"
 
 .CODE
 RESET:
-    SEI                 ;   ==========================================
-    CLD                 ;                SUBRUTINA DE RESET
-    LDX #$FF            ;   * dezactivare intreruperi si mod BCD
-    TXS                 ;   * initializare stiva 
-    LDA #$00            ;   * initializare registre: A = X = Y = 0
-    TAX                 ;
-    TAY                 ;   ==========================================
+    SEI
+    CLD
+    LDX #$FF
+    TXS
+    LDA #$00
+    TAX
+    TAY
 
-    JSR ACIA_INIT
     JSR VIA_INIT
     JSR LCD_INIT
+    JSR ACIA_INIT
 
-    LDA #<mesaj
-    STA _STR_ADDR
-    LDA #>mesaj
-    STA _STR_ADDR + 1
+    LDA #<msg_sys_init
+    STA _LCD_L1_STR
+    LDA #>msg_sys_init
+    STA _LCD_L1_STR + 1
     JSR LCD_STR
     
-LOOP:
-    JMP LOOP
+    JSR ACIA_READ       ;   testare ACIA
+@LOOP:
+    JMP @LOOP
 
 NMI:
     RTI

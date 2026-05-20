@@ -1,10 +1,6 @@
-.ifndef __MODUL_LCD_H__
-__MODUL_LCD_H__ = 1
-
-.include "modul_via.asm"
-
 ;   Driver pentru afisaje LCD alfanumerice (HD44780)
-;   Subrutine:
+;   Faciliteaza interfatarea unui LCD prin 6522
+;       Subrutine:
 ;   *   LCD_INIT
 ;   *   LCD_CMD
 ;   *   LCD_CHR
@@ -15,8 +11,16 @@ __MODUL_LCD_H__ = 1
 ;   *   se va renunta la metoda cu decalaj soft
 ;   *   se vor generaliza instructiunile pentru LCD-uri de diferite dimensiuni: 8x2, 16x2, 24
 
-.define _STR_ADDR        $0000
-.define _LCD_VAL_TMP     $7FFD
+.ifndef __MODUL_LCD_H__
+__MODUL_LCD_H__ = 1
+
+.include "VIA.asm"
+
+.define _LCD_L1_STR         $0000
+.define _LCD_L2_STR         $0002
+.define _LCD_L3_STR         $0004
+.define _LCD_L4_STR         $0006
+.define _LCD_VAL_TMP        $0008
 
 .CODE
 LCD_INIT:
@@ -46,13 +50,11 @@ LCD_CMD:
     ORA #$02           ;   E = 1
     STA VIA_PORTB
 
-    LDA #$80
     JSR DELAY
 
     AND #$F0
     STA VIA_PORTB           ;E = 0
 
-    LDA #$80
     JSR DELAY
 
     LDA _LCD_VAL_TMP
@@ -64,13 +66,11 @@ LCD_CMD:
     ORA #$02        
     STA VIA_PORTB       
 
-    LDA #$80
     JSR DELAY
 
     AND #$F0
     STA VIA_PORTB
 
-    LDA #$80
     JSR DELAY
     
     PLA
@@ -88,13 +88,11 @@ LCD_CHR:
     ORA #$06            ;   RS = 1 si E = 1
 
     STA VIA_PORTB
-    LDA #$80
     JSR DELAY
 
     AND #$F4            ;   RS = 1 si E = 0
 
     STA VIA_PORTB
-    LDA #$80
     JSR DELAY
 
     LDA _LCD_VAL_TMP
@@ -106,13 +104,11 @@ LCD_CHR:
     ORA #$06        ;   RS = 1 si E = 1
 
     STA VIA_PORTB
-    LDA #$80
     JSR DELAY
 
     AND #$F4        ;   RS = 1 si E = 0
 
     STA VIA_PORTB
-    LDA #$80
     JSR DELAY
 
     PLA
@@ -123,7 +119,7 @@ LCD_STR:
     PHY
     LDY #$00
 @LCD_STR_AFISARE_CHR:
-    LDA (_STR_ADDR),Y
+    LDA (_LCD_L1_STR),Y
     BEQ @LCD_STR_FINAL
     JSR LCD_CHR
     INY
@@ -134,10 +130,12 @@ LCD_STR:
 
     RTS
     
+;   subrutina de delay
 DELAY:
     PHA
     PHX
-    LDA #$FF
+
+    LDA #$80
 @DELAY_1:
     TAX
 @DELAY_0:
@@ -145,6 +143,7 @@ DELAY:
     BNE @DELAY_0
     DEC
     BNE @DELAY_1
+
     PLX
     PLA
     RTS

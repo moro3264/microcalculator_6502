@@ -1,7 +1,8 @@
+;   Driver pentru 65C22 (WDC) Versatile Interface Adapter (VIA)
+
+
 .ifndef __MODUL_VIA_H__
 __MODUL_VIA_H__ = 1
-
-;   Driver pentru 65C22 (WDC) Versatile Interface Adapter (VIA)
 
 ;   Adrese pentru VIA
 .define VIA_PORTB           $8010
