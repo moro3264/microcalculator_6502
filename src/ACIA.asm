@@ -33,7 +33,7 @@ ACIA_INIT:
     LDA #$10                    ;
     STA ACIA_CONTROL_REG        ;   115200bps, word de 8 biti, 1 stop bit
 
-    LDA #$0B                    ;
+    LDA #$09
     STA ACIA_COMMAND_REG        ;   fara parity, fara echo, fara IRQ, DTR = 1
 
     PLA
@@ -63,7 +63,6 @@ ACIA_READ:
     LDA ACIA_DATA_REG
     JSR LCD_CHR
 
-    JMP ACIA_READ               ;   loop infinit pentru test
     PLA
 
     RTS
