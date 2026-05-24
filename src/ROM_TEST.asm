@@ -3,7 +3,6 @@
 .include "LCD.inc"
 
 ;   program de test
-
 START_PROGRAM:
     JSR LCD_CLEAR
     LDA #$40

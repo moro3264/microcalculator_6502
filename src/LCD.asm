@@ -6,19 +6,12 @@
 ;   *   LCD_CHR
 ;   *   LCD_STR
 ;   *   LCD_CLEAR
-;
-;   Pe viitor:
-;   *   se va renunta la metoda cu decalaj soft
-;   *   se vor generaliza instructiunile pentru LCD-uri de diferite dimensiuni: 8x2, 16x2, 24
 
 .include "adrese_io.inc"
 .include "VIA.inc"
 
 .define _LCD_L1_STR         $0000
-.define _LCD_L2_STR         $0002
-.define _LCD_L3_STR         $0004
-.define _LCD_L4_STR         $0006
-.define _LCD_VAL_TMP        $0008
+.define _LCD_VAL_TMP        $2FFF
 
 .CODE
 LCD_INIT:
@@ -33,9 +26,6 @@ LCD_INIT:
     LDA #$0C
     JSR LCD_CMD
     JSR LCD_CLEAR
-
-    LDA #'!'
-    JSR LCD_CHR
 
     PLA
     RTS
@@ -140,7 +130,7 @@ DELAY:
     PHA
     PHX
 
-    LDA #$80
+    LDA #$60
 @DELAY_1:
     TAX
 @DELAY_0:

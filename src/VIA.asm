@@ -11,7 +11,6 @@ VIA_INIT:
     STA VIA_DDRA    ;   PORTA / PORTB sunt iesiri
 
     PLA
-
     RTS
 
 .export VIA_INIT
