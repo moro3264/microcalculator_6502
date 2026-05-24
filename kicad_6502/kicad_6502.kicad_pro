@@ -466,7 +466,7 @@
       "no_connect_dangling": "warning",
       "pin_not_connected": "error",
       "pin_not_driven": "error",
-      "pin_to_pin": "error",
+      "pin_to_pin": "warning",
       "power_pin_not_driven": "error",
       "same_local_global_label": "warning",
       "similar_label_and_power": "warning",
@@ -488,7 +488,7 @@
     "pinned_symbol_libs": []
   },
   "meta": {
-    "filename": "microcalculator_6502.kicad_pro",
+    "filename": "kicad_6502.kicad_pro",
     "version": 3
   },
   "net_settings": {
@@ -598,48 +598,12 @@
           "label": "Datasheet",
           "name": "Datasheet",
           "show": true
-        },
-        {
-          "group_by": false,
-          "label": "Sim.Params",
-          "name": "Sim.Params",
-          "show": false
-        },
-        {
-          "group_by": false,
-          "label": "Sim.Pins",
-          "name": "Sim.Pins",
-          "show": false
-        },
-        {
-          "group_by": false,
-          "label": "Sim.Type",
-          "name": "Sim.Type",
-          "show": false
-        },
-        {
-          "group_by": false,
-          "label": "Sim.Device",
-          "name": "Sim.Device",
-          "show": false
-        },
-        {
-          "group_by": false,
-          "label": "Description",
-          "name": "Description",
-          "show": false
-        },
-        {
-          "group_by": false,
-          "label": "#",
-          "name": "${ITEM_NUMBER}",
-          "show": false
         }
       ],
       "filter_string": "",
       "group_symbols": true,
       "include_excluded_from_bom": true,
-      "name": "",
+      "name": "Default Editing",
       "sort_asc": true,
       "sort_field": "Reference"
     },
@@ -672,14 +636,6 @@
     "meta": {
       "version": 1
     },
-    "ngspice": {
-      "fix_include_paths": true,
-      "meta": {
-        "version": 0
-      },
-      "model_mode": 4,
-      "workbook_filename": ""
-    },
     "page_layout_descr_file": "",
     "plot_directory": "",
     "reuse_designators": true,
@@ -687,17 +643,17 @@
     "subpart_id_separator": 0,
     "top_level_sheets": [
       {
-        "filename": "microcalculator_6502.kicad_sch",
+        "filename": "kicad_6502.kicad_sch",
         "name": "Root",
-        "uuid": "6f6911b4-1d9a-41da-8715-3ba1fe10eada"
+        "uuid": "88358432-f81b-4163-8981-0a9d849ab4e1"
       }
     ],
-    "used_designators": "J14",
+    "used_designators": "SW1,C1-10,J1-13,R1-11,Y1-3,#PWR1-13,#FLG1-2,U1-7",
     "variants": []
   },
   "sheets": [
     [
-      "6f6911b4-1d9a-41da-8715-3ba1fe10eada",
+      "88358432-f81b-4163-8981-0a9d849ab4e1",
       "Root"
     ]
   ],
