@@ -11,10 +11,8 @@
 ;   *   se va renunta la metoda cu decalaj soft
 ;   *   se vor generaliza instructiunile pentru LCD-uri de diferite dimensiuni: 8x2, 16x2, 24
 
-.ifndef __MODUL_LCD_H__
-__MODUL_LCD_H__ = 1
-
-.include "VIA.asm"
+.include "adrese_io.inc"
+.include "VIA.inc"
 
 .define _LCD_L1_STR         $0000
 .define _LCD_L2_STR         $0002
@@ -35,6 +33,9 @@ LCD_INIT:
     LDA #$0C
     JSR LCD_CMD
     JSR LCD_CLEAR
+
+    LDA #'!'
+    JSR LCD_CHR
 
     PLA
     RTS
@@ -117,9 +118,13 @@ LCD_CHR:
 LCD_STR: 
     PHA
     PHY
+    
+    STA _LCD_L1_STR
+    STY _LCD_L1_STR + 1
+
     LDY #$00
 @LCD_STR_AFISARE_CHR:
-    LDA (_LCD_L1_STR),Y
+    LDA (_LCD_L1_STR), Y
     BEQ @LCD_STR_FINAL
     JSR LCD_CHR
     INY
@@ -157,4 +162,9 @@ LCD_CLEAR:
     PLA
     RTS
 
-.endif
+.export LCD_INIT
+.export LCD_CMD
+.export LCD_CHR
+.export LCD_STR
+.export LCD_CLEAR
+.export DELAY

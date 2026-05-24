@@ -1,0 +1,3 @@
+.CODE
+CRC16_CLC:
+    RTI

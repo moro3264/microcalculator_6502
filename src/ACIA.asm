@@ -11,18 +11,7 @@
 ;   *   sa ma hotarasc dracului odata daca folosesc sau nu ceilalti pini, pe langa RxD si TxD.
 ;   *   sa scriu subrutinele necesare incarcarii in RAM a datelor primite
 
-.ifndef __MODUL_ACIA_H__
-__MODUL_ACIA_H__ = 1
-
-.include "LCD.asm"
-
-;   Adrese pentru ACIA
-.define ACIA_DATA_REG       $8000
-.define ACIA_STATUS_REG     $8001
-.define ACIA_COMMAND_REG    $8002
-.define ACIA_CONTROL_REG    $8003
-
-.define _ACIA_CURRENT_STATUS  $7FFE
+.include "adrese_io.inc"
 
 .CODE
 ACIA_INIT:
@@ -30,7 +19,7 @@ ACIA_INIT:
 
     STZ ACIA_STATUS_REG         ;   reset soft (nu e nevoie la inceput)
 
-    LDA #$10                    ;
+    LDA #$1F                    ;
     STA ACIA_CONTROL_REG        ;   115200bps, word de 8 biti, 1 stop bit
 
     LDA #$09
@@ -61,10 +50,11 @@ ACIA_READ:
     BEQ @ASTEAPTA_RX            ;   verifica daca RX e plin
 
     LDA ACIA_DATA_REG
-    JSR LCD_CHR
 
     PLA
 
     RTS
 
-.endif
+.export ACIA_INIT
+.export ACIA_WRITE
+.export ACIA_READ

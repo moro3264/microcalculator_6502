@@ -1,9 +1,14 @@
 *.history
 *.swp
 *.o
+*.out
 *.pin
 *.jed
 *.fus
 *.chp
 *.lck
+*.bin
+*.py
+uartup
+uartup.c
 bin/

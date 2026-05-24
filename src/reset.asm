@@ -1,12 +1,69 @@
-.INCLUDE "VIA.asm"
-.INCLUDE "ACIA.asm"
-.INCLUDE "LCD.asm"
+.include "adrese_io.inc"
+.INCLUDE "VIA.inc"
+.INCLUDE "ACIA.inc"
+.INCLUDE "LCD.inc"
+
+.define ZP_ADR_PRG $007F
+.define UART_ANTET $0030
 
 .RODATA
-MSG_SYS_INIT: 
-    .ASCIIZ "SYSTEM INIT..."
 
-.define ZP_ADR_PRG $7F
+MSG_SYS_INIT:
+    .ASCIIZ "SYS INIT"
+MSG_LD_PRG:
+    .ASCIIZ "ASTEPT PROGRAM!"
+
+.CODE
+IRQ:
+    SEI
+    PHA
+    PHX
+    PHY
+
+    PLY
+    PLX
+    PLA
+    CLI
+    RTI
+
+NMI:
+    SEI
+    PHA
+    PHX
+    PHY
+
+    JSR LCD_CLEAR
+    LDA #<MSG_LD_PRG
+    LDY #>MSG_LD_PRG
+    JSR LCD_STR
+
+    LDY #$00
+    STZ ZP_ADR_PRG
+    LDA #$2F
+    STA ZP_ADR_PRG + 1
+NMI_INC_P:
+    INC ZP_ADR_PRG + 1
+NMI_POLL:                   ;
+    LDA ACIA_STATUS_REG     ;
+    BIT #$08                ;
+    BEQ NMI_POLL            ;   polling date ACIA
+    LDA ACIA_DATA_REG       ;
+    STA (ZP_ADR_PRG), Y     ;   stocare byte curent in RAM
+    CMP #$DB                ;
+    BEQ NMI_FINAL           ;   la instructiunea STP se opreste copierea programului
+    INY                     ;
+    BEQ NMI_INC_P           ;   Y = 0 => incrementeaza pagina
+    BRA NMI_POLL            ;   citeste urmatorul byte
+NMI_FINAL:
+    TSX                     ;
+    LDA #$30                ;
+    STA $0106, X            ;
+    STZ $0105, X            ;   adresa de revenire va fi cea a programului incarcat
+
+    PLY
+    PLX
+    PLA
+    RTI                     ;   iesire din intrerupere, salt la programul incarcat
 
 .CODE
 RESET:
@@ -18,107 +75,24 @@ RESET:
     TAX
     TAY
 
-    STZ ZP_ADR_PRG
-    LDA #$2F
-    STA ZP_ADR_PRG + 1
-
     JSR VIA_INIT
     JSR LCD_INIT
     JSR ACIA_INIT
 
-    LDA #<MSG_SYS_INIT
-    STA _LCD_L1_STR
-    LDA #>MSG_SYS_INIT
-    STA _LCD_L1_STR + 1
-    JSR LCD_STR
-    
-    STZ $FE
-    LDA #$30
-    STA $FF
-
-    CLI
-    WAI
+    WAI                     ;   asteapta primul NMI
 LOOP:
-    JMP LOOP
+    BRA LOOP
 
-;   -   UART_ANTET[0] - SECVENTA DE START (0x42)
-;   -   UART_ANTET[1] - CHECKSUM LOW
-;   -   UART_ANTET[2] - CHECKSUM HIGH CRC16
-;   -   UART_ANTET[3] - COMANDA
-;   -   UART_ANTET[4] - LUNGIMEA DATELOR LOW
-;   -   UART_ANTET[5] - LUNGIMEA DATELOR HIGH
-.DEFINE UART_ANTET $0030
-NMI:
-    SEI
-    PHA
-    PHX
-    PHY
+;   NMI e folosit strict pentru incarcarea datelor de program
+;   Subrutina incarca programe prin ACIA.
+;   Structura antetului UART:
+;   byte 4   -   CMD (comanda primita)
+;   byte 3   -   DLH (high byte din lungimea datelor)
+;   byte 2   -   DLL (low byte din lungimea datelor)
+;   byte 1   -   CSH (high byte din checksum)
+;   byte 0   -   CSH (low byte din checksum)
 
-    STZ ZP_ADR_PRG
-    LDA #$2F
-    STA ZP_ADR_PRG + 1
-
-    LDX #$00
-@ACIA_CITESTE_ANTET:
-    LDA ACIA_STATUS_REG
-    AND #$08
-    BEQ @ACIA_CITESTE_ANTET
-    
-    LDA ACIA_DATA_REG
-    STA UART_ANTET, X
-    INX
-    CPX #$06
-    BEQ @LOAD_PROGRAM_IN_RAM
-    JMP @ACIA_CITESTE_ANTET
-
-@LOAD_PROGRAM_IN_RAM:
-
-    LDX #$03                    ;   intrucat incepem de la $3000
-    LDA ZP_ADR_PRG              ;   si dimensiunea maxima de program e 16KiB, 
-    ADC ACIA_DATA_REG, X        ;   nu are rost sa ne facem griji de overflow
-    STA ZP_ADR_PRG + 2          ;   stocheaza in ZP_ADR_PRG[2] low byte pentru adresa de final
-    INX                         ;
-    LDA ZP_ADR_PRG + 1          ;
-    ADC ACIA_DATA_REG, X        ;   
-    STA ZP_ADR_PRG + 3          ;   stocheaza in ZP_ADR_PRG[3] high byte pentru adresa de final
-@INC_PAG:
-    LDX #$03
-    LDA ZP_ADR_PRG + 1
-    CMP ZP_ADR_PRG, X
-    BNE @CONTINUA_INCARCAREA    ;   daca nu am ajuns la ultima pagina, continua sa incarci
-    DEX
-    LDA ZP_ADR_PRG
-    CMP ZP_ADR_PRG, X
-    BNE @CONTINUA_INCARCAREA    ;   daca nu am ajuns la ultimul byte din pagina, continua sa incarci
-    JMP @FINAL_INCARCARE
-@CONTINUA_INCARCAREA:
-    LDY #$00                    ;
-    INC ZP_ADR_PRG              ;   clear Y si incrementeaza pagina
-@ACIA_CITESTE_DATE:
-    LDA ACIA_STATUS_REG         ;
-    AND #$08                    ;
-    BEQ @ACIA_CITESTE_DATE      ;   polling porno ACIA
-
-    LDA ACIA_DATA_REG           ;
-    STA (ZP_ADR_PRG), Y         ;   date valide, stocheaza byte
-    INY                         ;   incrementeaza pozitia in pagina
-    BNE @ACIA_CITESTE_DATE      ;   daca Y != 0 continua pagina, altfel incrementeaza pagina si continua
-    JMP @INC_PAG                ;
-
-@FINAL_INCARCARE:
-
-    PLY
-    PLX
-    PLA
-    CLI
-    RTI
-
-IRQ:
-    SEI
-    CLI
-    RTI
-
-.SEGMENT "VECTORI"
+.SEGMENT "VEC"
 .WORD NMI
 .WORD RESET
 .WORD IRQ

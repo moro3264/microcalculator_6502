@@ -17,22 +17,26 @@ DIR_BIN 	= bin
 
 DCD_MEM		=	dcd_mem.pld
 ASM_S 		= \
+	  $(DIR_SRC)/reset.asm\
 	  $(DIR_SRC)/LCD.asm\
 	  $(DIR_SRC)/VIA.asm\
 	  $(DIR_SRC)/ACIA.asm\
-	  $(DIR_SRC)/reset.asm\
+	  $(DIR_SRC)/ROM_TEST.asm
 
 ASM_O 		= $(ASM_S:%.asm=%.o)
 FIRMWARE	= firmware.bin
 
 $(FIRMWARE): $(ASM_O)
-	$(LD) $(LD_FLAGS) -o bin/$(FIRMWARE) $(ASM_O)
+	$(LD) $(LD_FLAGS) $(ASM_O)
 	rm $(ASM_O)
 
 .asm.o:
 	$(AS) $(AS_FLAGS) -o $@ $<
 .c.o:
 	$(CC) $(CC_FLAGS) -o $@ $<
+
+run: $(FIRMWARE)
+	doas ./uartup bin/rom_test.bin $$(stat -f%z bin/rom_test.bin)
 
 dcd: $(DCD_MEM)
 	galette -c -f -p $(DCD_MEM)
@@ -43,6 +47,10 @@ dmp:
 	doas minipro -p AT28C256 -r bin/$(FIRMWARE).d
 erase:
 	doas minipro -p AT28C256 -E
+
+
+clr:
+	rm -f $(FINAL) $(OBJ)
 
 clr:
 	rm -f $(ASM_O) $(FIRMWARE)
